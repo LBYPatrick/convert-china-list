@@ -2613,6 +2613,11 @@ zone "0898gf.net" {
 	forwarders {114.114.114.114;};
 };
 
+zone "0898qw.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "089dns.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -4788,6 +4793,11 @@ zone "127v.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "127xx.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "1288.tv" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -6258,6 +6268,11 @@ zone "17673.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "1768.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "176878.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -6923,7 +6938,17 @@ zone "188.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "1885888.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "188bifen.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "188cf.net" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -7664,6 +7689,11 @@ zone "1s5s.com" {
 };
 
 zone "1seo2sem.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "1shang.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -9218,7 +9248,7 @@ zone "264g.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#265.com" {
+zone "/265.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -9788,7 +9818,7 @@ zone "2m2j.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#2mdn.net" {
+zone "/2mdn.net" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -10329,6 +10359,11 @@ zone "31zscl.com" {
 };
 
 zone "320106.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "32055.net" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -24423,6 +24458,11 @@ zone "8duoduo.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "8ebo.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "8edy.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -34729,6 +34769,11 @@ zone "b5mcdn.com" {
 };
 
 zone "b6wp.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "b8yz.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -54753,6 +54798,11 @@ zone "coolsrv.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "coolwarmsy.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "coolwp.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -56033,7 +56083,7 @@ zone "cshzw.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#csi.gstatic.com" {
+zone "/csi.gstatic.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -56324,6 +56374,11 @@ zone "ctags.net" {
 };
 
 zone "ctaoci.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "ctcdns.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -61973,7 +62028,7 @@ zone "dl.delivery.mp.microsoft.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#dl.google.com" {
+zone "/dl.google.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -63443,7 +63498,7 @@ zone "doubean.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#doubleclick.net" {
+zone "/doubleclick.net" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -66109,6 +66164,11 @@ zone "easybug.org" {
 };
 
 zone "easyfang.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "easygametime.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -72093,6 +72153,11 @@ zone "fj15.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "fj173.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "fj987.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -72733,12 +72798,12 @@ zone "fontke.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#fonts.googleapis.com" {
+zone "/fonts.googleapis.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
 
-zone "#fonts.gstatic.com" {
+zone "/fonts.gstatic.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -77893,7 +77958,7 @@ zone "googie.hk" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#google-analytics.com" {
+zone "/google-analytics.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -77903,12 +77968,12 @@ zone "google-update.net" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#googleadservices.com" {
+zone "/googleadservices.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
 
-zone "#googleanalytics.com" {
+zone "/googleanalytics.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -77918,7 +77983,7 @@ zone "googlestatics1.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#googlesyndication.com" {
+zone "/googlesyndication.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -77928,12 +77993,12 @@ zone "googlesysndication.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#googletagmanager.com" {
+zone "/googletagmanager.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
 
-zone "#googletagservices.com" {
+zone "/googletagservices.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -80364,6 +80429,11 @@ zone "h515.net" {
 };
 
 zone "h5abc.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "h5avu.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -86939,6 +87009,11 @@ zone "httpcn.com" {
 };
 
 zone "htwbb.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "htwed.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -101528,6 +101603,11 @@ zone "jybajun.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "jyblife.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "jyblp.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -105859,6 +105939,11 @@ zone "kx1d.com" {
 };
 
 zone "kx516.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "kx7p.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -114913,7 +114998,7 @@ zone "mediav.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#mediavisor.doubleclick.com" {
+zone "/mediavisor.doubleclick.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -118484,6 +118569,11 @@ zone "morz.org" {
 };
 
 zone "moshou.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "moshuqiqiu.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -125448,6 +125538,11 @@ zone "p2pzc.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "p3k3.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "p4.cc" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -127349,6 +127444,16 @@ zone "pingan.com.hk" {
 };
 
 zone "pingan.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "pinganad.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "pingancdn.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -129993,6 +130098,11 @@ zone "qhimg.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "qhimgs4.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "qhkyfund.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -130089,6 +130199,11 @@ zone "qhyedu.com" {
 };
 
 zone "qi-che.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "qi-wen.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -130973,6 +131088,11 @@ zone "qingsongchou.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "qingstor.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "qingtiancms.net" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -131039,6 +131159,11 @@ zone "qiniudns.com" {
 };
 
 zone "qiniutek.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "qiniuts.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -131259,6 +131384,11 @@ zone "qire123.com" {
 };
 
 zone "qiredy.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "qiruimaoyi.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -137843,6 +137973,11 @@ zone "sf-express.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "sf-financial.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "sf-pay.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -140908,6 +141043,11 @@ zone "shuping5.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "shuqireader.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "shurenbang.net" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -141059,6 +141199,11 @@ zone "shyishi.com" {
 };
 
 zone "shyjad.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "shyouai.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -142909,6 +143054,11 @@ zone "socialbeta.com" {
 };
 
 zone "socialfishface.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "socialjia.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -147243,6 +147393,11 @@ zone "tadewo.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "tadseeker.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "tadu.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -151348,6 +151503,11 @@ zone "topsem.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "topsgame.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "topshot-wedding.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -152579,6 +152739,11 @@ zone "tubachina.com" {
 };
 
 zone "tuboshu.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "tubutu.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -155694,6 +155859,11 @@ zone "uuzuonline.com" {
 };
 
 zone "uuzuonline.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "uuzz.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -161478,6 +161648,11 @@ zone "whjfz.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "whjhcz.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "whjjyyjsb.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -164398,7 +164573,7 @@ zone "www.appinn.com" {
 	forwarders {114.114.114.114;};
 };
 
-zone "#www.bing.com" {
+zone "/www.bing.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -164834,6 +165009,11 @@ zone "wys.me" {
 };
 
 zone "wysap.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "wytz9.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -175068,6 +175248,11 @@ zone "yonyouhit.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "yoodoing.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "yooek.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -175659,6 +175844,11 @@ zone "youwo.com" {
 };
 
 zone "youxi.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "youxi01.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };
@@ -180613,6 +180803,11 @@ zone "zhaoyun.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "zhaozhexue.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "zhaozhishi.com" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -184773,6 +184968,11 @@ zone "zxtjd.com" {
 	forwarders {114.114.114.114;};
 };
 
+zone "zxtzx.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
 zone "zxwyw.net" {
 	type forward;
 	forwarders {114.114.114.114;};
@@ -185164,6 +185364,11 @@ zone "zzwljc.com" {
 };
 
 zone "zzwms.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "zzwqqx.com" {
 	type forward;
 	forwarders {114.114.114.114;};
 };

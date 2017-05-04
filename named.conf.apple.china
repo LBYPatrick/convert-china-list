@@ -1,0 +1,220 @@
+zone "adcdownload.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "appldnld.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn-cn1.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn-cn2.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn-cn3.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn-cn4.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn1.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn2.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn3.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cdn4.apple-mapkit.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cds.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cl1.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cl2.apple.com.edgekey.net.globalredir.akadns.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cl2.apple.com.edgekey.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cl2.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cl3.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cl4.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "cl5.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gsp11-cn.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gsp12-cn.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gsp13-cn.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gsp4-cn.ls.apple.com.edgekey.net.globalredir.akadns.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gsp4-cn.ls.apple.com.edgekey.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gsp4-cn.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gsp5-cn.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gspe19-cn.ls-apple.com.akadns.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gspe19-cn.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gspe21.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "gspe35-ssl.ls.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "icloud.cdn-apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "images.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "itunes-apple.com.akadns.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "itunes.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "itunesconnect.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "mesu.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "phobos-apple.com.akadns.net" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "phobos.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "store.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "store.storeimages.cdn-apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "support.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "swcdn.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "swdist.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
+zone "www.apple.com" {
+	type forward;
+	forwarders {114.114.114.114;};
+};
+
