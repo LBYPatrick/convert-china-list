@@ -15,5 +15,3 @@ Just include the file you downloaded/converted in /etc/bind/named.conf.local
 
 
 
-DO WHAT THE FUCK YOU WANT TO WITH THIS (NO LICENSE)
-
