@@ -10,12 +10,10 @@ string preferredDNS;
 
 int main(int argc, char*const argv[]) {
 
-#pragma region Init Variables (available arguments, buffer for arguments, bool for selecting modes)
+#pragma region Init Variables (buffer for arguments, Mode Selection (Int) ,bool for selecting modes)
 
-	const unsigned int availableArguments = 5;
 	string buf4Arguments;
-	bool shadowrocketMode = 0;
-	bool bindMode = 0;
+	int mode;
 	bool result;
 
 #pragma endregion
@@ -26,12 +24,13 @@ int main(int argc, char*const argv[]) {
 #pragma region  Select Running Mode
 
 		system("cls");
-		printf("1. Shadowrocket \n2. Bind\n\n");
+		printf("1. Shadowrocket \n2. Bind\n3. PAC file\n");
 		printf("Please enter running mode(number or name):");
 		cin >> buf4Arguments;
 
-		if (utils.containIgnoreCase(buf4Arguments, "shadowrocket") || buf4Arguments == "1") {shadowrocketMode = 1;}
-		if (utils.containIgnoreCase(buf4Arguments, "bind") || buf4Arguments == "2") { bindMode = 1; }
+		if (utils.containIgnoreCase(buf4Arguments, "shadowrocket") || buf4Arguments == "1") {mode = 0;}
+		else if (utils.containIgnoreCase(buf4Arguments, "bind") || buf4Arguments == "2") { mode = 1; }
+		else if (utils.containIgnoreCase(buf4Arguments, "pac file") || buf4Arguments == "3") { mode = 2; }
 		else { utils.reportError("Unknown Mode."); system("pause"); return 1; }
 
 #pragma endregion
@@ -39,14 +38,10 @@ int main(int argc, char*const argv[]) {
 #pragma region Collect Information
 		system("cls");
 		printf("Please Enter origin file name:");
-		cin >> inputFile;
+		cin >> utils.inputFile;
 		printf("\nPlease Enter output file name:");
-		cin >> outputFile;
+		cin >> utils.outputFile;
 		
-		if (bindMode) {
-			printf("\nPlease Enter Your preferred DNS:");
-			cin >> preferredDNS;
-		}
 #pragma endregion
 
 #pragma region Main Step
@@ -54,8 +49,23 @@ int main(int argc, char*const argv[]) {
 		cout << "------------------\n";
 		cout << "Converting...";
 
-		if (bindMode) { result = utils.convertToBind(); }
-		if (shadowrocketMode) { result = utils.convertToShadowrocket(); }
+		switch (mode) {
+		case 0: 
+			
+			result = utils.convertToShadowrocket();
+			break;
+		case 1:
+			printf("\nPlease Enter Your preferred DNS:");
+			cin >> utils.preferredDNS;
+			result = utils.convertToBind();
+			break;
+		case 2:
+			result = utils.convertToShadowsocksWindows();
+			break;
+		default:
+			return 1;
+			break;
+		}
 #pragma endregion
 
 #pragma region Post Run
@@ -81,11 +91,12 @@ int main(int argc, char*const argv[]) {
 		if (buf4Arguments == "--help") {
 			printf("convert-china-list by LBYPatrick\n");
 			printf("\nHere are parameters available:\n");
-			printf("    -s or --shadowrocket : convert specified file to a shadowrocket-compatible file.\n");
-			printf("    -b or --bind         : convert specified file to a bind9-compatible file.\n");
-			printf("    -i or --input-file   : specify input file.\n");
-			printf("    -o or --output-file  : specify output file. \n");
-			printf("    -d or --dns          : specify preferred DNS (only required in bind mode).\n");
+			printf("    -s  or --shadowrocket        : convert specified file to a shadowrocket-compatible file.\n");
+			printf("    -b  or --bind                : convert specified file to a bind9-compatible file.\n");
+			printf("    -p  or --pac                 : convert specified file to a PAC file(shadowsocks-windows compatible).\n");
+			printf("    -i  or --input-file          : specify input file.\n");
+			printf("    -o  or --output-file         : specify output file. \n");
+			printf("    -d  or --dns                 : specify preferred DNS (only required in bind mode).\n");
 
 		}
 		else { printf("[ERROR]Unknown parameter. Please check your spell or read the manual by using --help.\n"); return 0; }
@@ -98,11 +109,12 @@ int main(int argc, char*const argv[]) {
 			if (argv[i]) {
 
 				buf4Arguments = argv[i];
-				if (buf4Arguments == "-s" || buf4Arguments == "--shadowrocket") {shadowrocketMode = 1;}
-				if (buf4Arguments == "-b" || buf4Arguments == "--bind") {bindMode = 1;}
-				if (buf4Arguments == "-i" || buf4Arguments == "--input-file") { inputFile = argv[i + 1]; }
-				if (buf4Arguments == "-o" || buf4Arguments == "--output-file") { outputFile = argv[i + 1]; }
-				if (buf4Arguments == "-d" || buf4Arguments == "--dns") { preferredDNS = argv[i + 1]; }
+				if (buf4Arguments == "-s" || buf4Arguments == "--shadowrocket") { mode = 0; }
+				if (buf4Arguments == "-b" || buf4Arguments == "--bind") { mode = 1; }
+				if (buf4Arguments == "-p" || utils.containIgnoreCase(buf4Arguments, "--pac")) { mode = 2; }
+				if (buf4Arguments == "-i" || buf4Arguments == "--input-file") { utils.inputFile = argv[i + 1]; }
+				if (buf4Arguments == "-o" || buf4Arguments == "--output-file") { utils.outputFile = argv[i + 1]; }
+				if (buf4Arguments == "-d" || buf4Arguments == "--dns") { utils.preferredDNS = argv[i + 1]; }
 			}
 			else { break; }
 		}
@@ -110,18 +122,28 @@ int main(int argc, char*const argv[]) {
 
 #pragma region Select Running Mode & Run
 		
-		if (outputFile == "") { utils.reportError("Need to specify output file name."); return 1; }
-		if (inputFile == "") { utils.reportError("Need to specify input file name."); return 1; }
+		if (utils.outputFile == "") { utils.reportError("Need to specify output file name."); return 1; }
+		if (utils.inputFile == "") { utils.reportError("Need to specify input file name."); return 1; }
 		
 		printf("Converting...");
-		
-		if (shadowrocketMode) { result = utils.convertToShadowrocket(); }
-		
-		if (bindMode) { 
+
+		switch (mode) {
+		case 0:
+			result = utils.convertToShadowrocket();
+			break;
+		case 1:
 			if (preferredDNS == "") { printf("Failed.\n"); utils.reportError("Need to specify preferred DNS."); return 1; }
 			else { result = utils.convertToBind(); }
+			break;
+		case 2:
+			result = utils.convertToShadowsocksWindows();
+			break;
+		default:
+			utils.reportError("Need to specify running mode (Shadowrocket?Bind 9?Shadowsocks-windows?"); 
+			return 1;
+			break;
 		}
-		if (!bindMode && !shadowrocketMode) { utils.reportError("Need to specify running mode (Shadowrocket?Bind 9?)"); return 1; }
+
 #pragma endregion
 
 #pragma region Post Run

@@ -3,10 +3,6 @@
 
 string failureReason;
 
-extern string inputFile;
-extern string outputFile;
-extern string preferredDNS;
-
 bool util::convertToBind() {
 
 #pragma region Check Read Access
@@ -62,7 +58,7 @@ void util::visualProgress(string message, double currentProgress, double progres
 
 	if (currentProgress + (progressGoal - currentProgress) < progressGoal) {printf(" ");}
 
-	printf("]%ls%s%ls",currentProgress,R"(\)",progressGoal);
+	printf("]%ls%s%f",currentProgress,R"(\)",progressGoal);
 
 	if (currentProgress == progressGoal) {printf("\n\n\n");}
 };
@@ -108,6 +104,72 @@ bool util::convertToShadowrocket() {
 
 		Writer << "\n\n\n"
 			<< "FINAL,Proxy";
+		Reader.close();
+		Writer.close();
+	}
+
+#pragma endregion
+
+	else {
+		failureReason += "\nProgram cannot find the origin file.";
+		return 1;
+	}
+	return 0;
+}
+
+bool util::convertToShadowsocksWindows() {
+	bool firstLineStat = 1;
+#pragma region Check Read Access
+	Reader.open(inputFile.c_str());
+	if (Reader.is_open()) {
+#pragma endregion
+
+#pragma region Check Write Access
+		Writer.open(outputFile.c_str());
+		if (!Writer.is_open()) {
+			failureReason += "\nProgram cannot output to the target file.";
+			return 1;
+		}
+#pragma endregion
+
+#pragma region Init Message
+		Writer << R"(var domains = {)"<<"\n";
+#pragma endregion
+
+#pragma region Format (Main)
+		while (getline(Reader, originLine)) {
+			if (!firstLineStat) {
+				Writer << ",\n";
+			}
+			Writer << R"(")" 
+				<< getRawDomain(originLine) 
+				<< R"(" : 1)";
+			firstLineStat = 0;
+		}
+#pragma endregion
+
+#pragma region End Message + Close streams
+
+		Writer << "\n\n};\n\n\n"
+			<< R"(var proxy = "__PROXY__";)" << "\n"
+			<< R"(var direct = 'DIRECT;';)"
+			<< "\n"
+			<< R"(var hasOwnProperty = Object.hasOwnProperty;)"
+			<< "\n\n"
+			<< R"(function FindProxyForURL(url, host) {)" << "\n\n"
+			<< R"(var suffix;)" << "\n"
+			<< R"(    var pos = host.lastIndexOf('.');)" << "\n"
+			<< R"(    pos = host.lastIndexOf('.', pos - 1);)"<<"\n\n"
+			<< R"(    while(1) {)" << "\n"
+			<< R"(	if (pos <= 0) {)" << "\n"
+			<< R"(		if (hasOwnProperty.call(domains, host)){ return direct;})" << "\n"
+			<< R"(		else {return proxy;}})" << "\n\n"
+			<< R"( suffix = host.substring(pos + 1);)" << "\n"
+			<< R"(if (hasOwnProperty.call(domains, suffix)) {return direct;})" << "\n"
+			<< R"(        pos = host.lastIndexOf('.', pos - 1);)" << "\n"
+			<< "	}\n}";
+
+		    
 		Reader.close();
 		Writer.close();
 	}

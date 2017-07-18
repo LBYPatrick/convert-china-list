@@ -8,6 +8,10 @@ public:
 	void reportError(string content);
 	bool containIgnoreCase(string str, string key);
 	string toUpperString(string str);
+	bool convertToShadowsocksWindows();
+	string inputFile;
+	string outputFile;
+	string preferredDNS;
 private:
 	string getRawDomain(string originLine);
 	ifstream Reader;
