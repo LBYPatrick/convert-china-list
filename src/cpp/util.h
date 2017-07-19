@@ -9,6 +9,7 @@ public:
 	bool containIgnoreCase(string str, string key);
 	string toUpperString(string str);
 	bool convertToShadowsocksWindows();
+	bool convertToSwitchyOmega();
 	string inputFile;
 	string outputFile;
 	string preferredDNS;

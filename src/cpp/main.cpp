@@ -24,13 +24,14 @@ int main(int argc, char*const argv[]) {
 #pragma region  Select Running Mode
 
 		system("cls");
-		printf("1. Shadowrocket \n2. Bind\n3. PAC file\n");
-		printf("Please enter running mode(number or name):");
+		printf("	1. Shadowrocket \n	2. Bind\n	3. Shadowsocks-windows PAC\n	4. SwitchyOmega PAC\n");
+		printf("\nPlease enter running mode(function number):");
 		cin >> buf4Arguments;
 
 		if (utils.containIgnoreCase(buf4Arguments, "shadowrocket") || buf4Arguments == "1") {mode = 0;}
 		else if (utils.containIgnoreCase(buf4Arguments, "bind") || buf4Arguments == "2") { mode = 1; }
-		else if (utils.containIgnoreCase(buf4Arguments, "pac file") || buf4Arguments == "3") { mode = 2; }
+		else if (utils.containIgnoreCase(buf4Arguments, "shadowsocks-windows") || buf4Arguments == "3") { mode = 2; }
+		else if (utils.containIgnoreCase(buf4Arguments, "switchyomega") || buf4Arguments == "4") { mode = 3; }
 		else { utils.reportError("Unknown Mode."); system("pause"); return 1; }
 
 #pragma endregion
@@ -62,7 +63,11 @@ int main(int argc, char*const argv[]) {
 		case 2:
 			result = utils.convertToShadowsocksWindows();
 			break;
+		case 3:
+			result = utils.convertToSwitchyOmega();
+			break;
 		default:
+			utils.reportError("Unkown Mode");
 			return 1;
 			break;
 		}
@@ -93,13 +98,14 @@ int main(int argc, char*const argv[]) {
 			printf("\nHere are parameters available:\n");
 			printf("    -s  or --shadowrocket        : convert specified file to a shadowrocket-compatible file.\n");
 			printf("    -b  or --bind                : convert specified file to a bind9-compatible file.\n");
-			printf("    -p  or --pac                 : convert specified file to a PAC file(shadowsocks-windows compatible).\n");
+			printf("    -sw or --shadowsocks-windows : convert specified file to a PAC file for shadowsocks-windows.\n");
+			printf("    -so or --switchyomega        : convert specified file to a PAC file for SwitchyOmega.\n");
 			printf("    -i  or --input-file          : specify input file.\n");
 			printf("    -o  or --output-file         : specify output file. \n");
 			printf("    -d  or --dns                 : specify preferred DNS (only required in bind mode).\n");
-
+			
 		}
-		else { printf("[ERROR]Unknown parameter. Please check your spell or read the manual by using --help.\n"); return 0; }
+		else { printf("[ERROR]Unknown parameter. Please check your spell or read the manual by using --help.\n"); return 1; }
 	}
 
 	// My Favorite -- commandline mode (Just Like Linux!)
@@ -111,7 +117,8 @@ int main(int argc, char*const argv[]) {
 				buf4Arguments = argv[i];
 				if (buf4Arguments == "-s" || buf4Arguments == "--shadowrocket") { mode = 0; }
 				if (buf4Arguments == "-b" || buf4Arguments == "--bind") { mode = 1; }
-				if (buf4Arguments == "-p" || utils.containIgnoreCase(buf4Arguments, "--pac")) { mode = 2; }
+				if (buf4Arguments == "-sw" || utils.containIgnoreCase(buf4Arguments, "--shadowsocks-windows")) { mode = 2; }
+				if (buf4Arguments == "-so" || utils.containIgnoreCase(buf4Arguments, "--switchyomega")) { mode = 3; }
 				if (buf4Arguments == "-i" || buf4Arguments == "--input-file") { utils.inputFile = argv[i + 1]; }
 				if (buf4Arguments == "-o" || buf4Arguments == "--output-file") { utils.outputFile = argv[i + 1]; }
 				if (buf4Arguments == "-d" || buf4Arguments == "--dns") { utils.preferredDNS = argv[i + 1]; }
@@ -138,8 +145,11 @@ int main(int argc, char*const argv[]) {
 		case 2:
 			result = utils.convertToShadowsocksWindows();
 			break;
+		case 3:
+			result = utils.convertToSwitchyOmega();
+			break;
 		default:
-			utils.reportError("Need to specify running mode (Shadowrocket?Bind 9?Shadowsocks-windows?"); 
+			utils.reportError("Need to specify running mode (Shadowrocket?Bind 9?Shadowsocks-windows?Raw file?)"); 
 			return 1;
 			break;
 		}
