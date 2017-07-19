@@ -1,8 +1,9 @@
 # Convert-China-List 
 [![Build Status](https://travis-ci.org/LBYPatrick/convert-china-list.svg?branch=master)](https://travis-ci.org/LBYPatrick/convert-china-list)
 
-#Description
-Coverted China List from [felixonmars/dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) for Bind/Shadowrocket/Shadowsocks-Windows/SwitchyOmega Users
+
+# Description
+Coverted China List from [felixonmars/dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) for Bind/Shadowrocket/Shadowsocks-Windows Users
 
 ## Usage (For generators)
 
