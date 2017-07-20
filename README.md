@@ -1,9 +1,10 @@
 # Convert-China-List 
 [![Build Status](https://travis-ci.org/LBYPatrick/convert-china-list.svg?branch=master)](https://travis-ci.org/LBYPatrick/convert-china-list)
 
+[ä¸­æ–‡è¯´æ˜](https://github.com/LBYPatrick/convert-china-list/wiki/convert-china-list-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 # Description
-Coverted China List from [felixonmars/dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) and [gfwlist/gfwlist](https://github.com/gfwlist/gfwlist) for Bind/Shadowrocket/Shadowsocks-Windows Users
+Coverted China List from [felixonmars/dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) and [gfwlist/gfwlist](https://github.com/gfwlist/gfwlist) for Bind/Shadowrocket/Shadowsocks-Windows/Proxy SwitchyOmega Users
 
 ## Usage (For generators)
 
@@ -43,4 +44,4 @@ Thanks to the base64 decode/encode module provided by [tylerliu](https://github.
 <br>
 And I think this mode is similar to [gfwlist2pac](https://github.com/breakwa11/GFWList2PAC), but in C++ and supports much more output formats.
 
-<h1>×îáá¤Ë¡¢–|—lÏ£×î¸ß!</h1>
+<h1>æœ€å¾Œã«ã€æ±æ¢å¸Œæœ€é«˜!</h1>
