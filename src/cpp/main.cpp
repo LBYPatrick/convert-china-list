@@ -1,8 +1,9 @@
 #include "util.h"
 #include "main.h"
+#include "core.h"
 
 extern string failureReason;
-util utils;
+core coreExecute;
 
 string inputFile;
 string outputFile;
@@ -10,10 +11,11 @@ string preferredDNS;
 
 int main(int argc, char*const argv[]) {
 
-#pragma region Init Variables (buffer for arguments, Mode Selection (Int) ,bool for selecting modes)
+#pragma region Init Variables (buffer for Parameters, Mode Selection (Int) ,bool for selecting modes)
 
-	string buf4Arguments;
-	int mode;
+	string buf4Parameters;
+	int inputMode;
+	int outputMode;
 	bool result;
 
 #pragma endregion
@@ -24,24 +26,42 @@ int main(int argc, char*const argv[]) {
 #pragma region  Select Running Mode
 
 		system("cls");
-		printf("	1. Shadowrocket \n	2. Bind\n	3. Shadowsocks-windows PAC\n	4. SwitchyOmega PAC\n");
-		printf("\nPlease enter running mode(function number):");
-		cin >> buf4Arguments;
+		printf("\n	1. dnsmasq \n	2. GFWList\n");
+		printf("\nPlease enter type of the source file:");
+		cin >> buf4Parameters;
 
-		if (utils.containIgnoreCase(buf4Arguments, "shadowrocket") || buf4Arguments == "1") {mode = 0;}
-		else if (utils.containIgnoreCase(buf4Arguments, "bind") || buf4Arguments == "2") { mode = 1; }
-		else if (utils.containIgnoreCase(buf4Arguments, "shadowsocks-windows") || buf4Arguments == "3") { mode = 2; }
-		else if (utils.containIgnoreCase(buf4Arguments, "switchyomega") || buf4Arguments == "4") { mode = 3; }
-		else { utils.reportError("Unknown Mode."); system("pause"); return 1; }
+		if (util::containIgnoreCase(buf4Parameters, "dnsmasq") || buf4Parameters == "1") { inputMode = 0; }
+		else if (util::containIgnoreCase(buf4Parameters, "gfwlist") || buf4Parameters == "2") { inputMode = 1; }
+		else {
+			util::reportError("Unknown Mode.");
+			system("pause");
+			return 1;
+		}
+
+
+		system("cls");
+		printf("\n	1. Shadowrocket \n	2. Bind\n	3. Shadowsocks-windows PAC\n	4. SwitchyOmega PAC\n");
+		printf("\nPlease enter running mode(function number):");
+		cin >> buf4Parameters;
+
+		if (util::containIgnoreCase(buf4Parameters, "shadowrocket")              || buf4Parameters == "1") { outputMode = 0; }
+		else if (util::containIgnoreCase(buf4Parameters, "bind")                 || buf4Parameters == "2") { outputMode = 1; }
+		else if (util::containIgnoreCase(buf4Parameters, "shadowsocks-windows")  || buf4Parameters == "3") { outputMode = 2; }
+		else if (util::containIgnoreCase(buf4Parameters, "switchyomega")         || buf4Parameters == "4") { outputMode = 3; }
+		else { 
+			util::reportError("Unknown Mode."); 
+			system("pause");
+			return 1; 
+		}		
 
 #pragma endregion
 
 #pragma region Collect Information
 		system("cls");
 		printf("Please Enter origin file name:");
-		cin >> utils.inputFile;
+		cin >> coreExecute.inputFile;
 		printf("\nPlease Enter output file name:");
-		cin >> utils.outputFile;
+		cin >> coreExecute.outputFile;
 		
 #pragma endregion
 
@@ -50,24 +70,27 @@ int main(int argc, char*const argv[]) {
 		cout << "------------------\n";
 		cout << "Converting...";
 
-		switch (mode) {
+		coreExecute.inputMode = inputMode;
+		coreExecute.convertToRawList();
+
+		switch (outputMode) {
 		case 0: 
 			
-			result = utils.convertToShadowrocket();
+			result = coreExecute.convertToShadowrocket();
 			break;
 		case 1:
 			printf("\nPlease Enter Your preferred DNS:");
-			cin >> utils.preferredDNS;
-			result = utils.convertToBind();
+			cin >> coreExecute.preferredDNS;
+			result = coreExecute.convertToBind();
 			break;
 		case 2:
-			result = utils.convertToShadowsocksWindows();
+			result = coreExecute.convertToShadowsocksWindows();
 			break;
 		case 3:
-			result = utils.convertToSwitchyOmega();
+			result = coreExecute.convertToSwitchyOmega();
 			break;
 		default:
-			utils.reportError("Unkown Mode");
+			util::reportError("Unkown Mode");
 			return 1;
 			break;
 		}
@@ -92,8 +115,8 @@ int main(int argc, char*const argv[]) {
 
 	//Show help or show error message
 	if (argc == 2) {
-		buf4Arguments = argv[1];
-		if (buf4Arguments == "--help") {
+		buf4Parameters = argv[1];
+		if (buf4Parameters == "--help") {
 			printf("convert-china-list by LBYPatrick\n");
 			printf("\nHere are parameters available:\n");
 			printf("    -s  or --shadowrocket        : convert specified file to a shadowrocket-compatible file.\n");
@@ -110,46 +133,61 @@ int main(int argc, char*const argv[]) {
 
 	// My Favorite -- commandline mode (Just Like Linux!)
 	if (argc > 2) {
-#pragma region Collect Arguments
+#pragma region Collect Parameters
 		for (unsigned int i = 1; i < argc; i++) {
 			if (argv[i]) {
 
-				buf4Arguments = argv[i];
-				if (buf4Arguments == "-s" || buf4Arguments == "--shadowrocket") { mode = 0; }
-				if (buf4Arguments == "-b" || buf4Arguments == "--bind") { mode = 1; }
-				if (buf4Arguments == "-sw" || utils.containIgnoreCase(buf4Arguments, "--shadowsocks-windows")) { mode = 2; }
-				if (buf4Arguments == "-so" || utils.containIgnoreCase(buf4Arguments, "--switchyomega")) { mode = 3; }
-				if (buf4Arguments == "-i" || buf4Arguments == "--input-file") { utils.inputFile = argv[i + 1]; }
-				if (buf4Arguments == "-o" || buf4Arguments == "--output-file") { utils.outputFile = argv[i + 1]; }
-				if (buf4Arguments == "-d" || buf4Arguments == "--dns") { utils.preferredDNS = argv[i + 1]; }
+				buf4Parameters = argv[i];
+				
+				if (buf4Parameters == "-c" || buf4Parameters == "--convert-to") {
+					buf4Parameters = argv[i + 1];
+					if (util::containIgnoreCase(buf4Parameters, "shadowrocket")              || buf4Parameters == "0") { outputMode = 0; }
+					else if (util::containIgnoreCase(buf4Parameters, "bind")                 || buf4Parameters == "1") { outputMode = 1; }
+					else if (util::containIgnoreCase(buf4Parameters, "shadowsocks-windows")  || buf4Parameters == "2") { outputMode = 2; }
+					else if (util::containIgnoreCase(buf4Parameters, "switchyomega")         || buf4Parameters == "3") { outputMode = 3; }
+					else { util::reportError("Sorry, we haven't finished the support for the output type you specified."); return 1; }
+				}
+				
+				else if (buf4Parameters == "-s" || buf4Parameters == "--source-type") {
+					buf4Parameters = argv[i + 1];
+					if (util::containIgnoreCase(buf4Parameters, "dnsmasq")                   || buf4Parameters == "0") { inputMode = 0; }
+					else if (util::containIgnoreCase(buf4Parameters, "gfwlist")              || buf4Parameters == "1") { inputMode = 1; }
+					else { util::reportError("Sorry, we haven't finished the support for the input type you specified."); return 1; }
+				}
+
+				else if (buf4Parameters == "-i" || buf4Parameters == "--input-file") { coreExecute.inputFile = argv[i + 1]; }
+				else if (buf4Parameters == "-o" || buf4Parameters == "--output-file") { coreExecute.outputFile = argv[i + 1]; }
+				else if (buf4Parameters == "-d" || buf4Parameters == "--dns") { coreExecute.preferredDNS = argv[i + 1]; }
 			}
-			else { break; }
 		}
 #pragma endregion
 
 #pragma region Select Running Mode & Run
 		
-		if (utils.outputFile == "") { utils.reportError("Need to specify output file name."); return 1; }
-		if (utils.inputFile == "") { utils.reportError("Need to specify input file name."); return 1; }
-		
+		if (coreExecute.outputFile == "") { util::reportError("Need to specify output file name."); return 1; }
+		if (coreExecute.inputFile == "") { util::reportError("Need to specify input file name."); return 1; }
+
 		printf("Converting...");
 
-		switch (mode) {
+		coreExecute.inputMode = inputMode;
+		coreExecute.convertToRawList();
+
+		switch (outputMode) {
 		case 0:
-			result = utils.convertToShadowrocket();
+			result = coreExecute.convertToShadowrocket();
 			break;
 		case 1:
-			if (preferredDNS == "") { printf("Failed.\n"); utils.reportError("Need to specify preferred DNS."); return 1; }
-			else { result = utils.convertToBind(); }
+			if (coreExecute.preferredDNS == "") { printf("Failed.\n"); util::reportError("Need to specify preferred DNS."); return 1; }
+			else { result = coreExecute.convertToBind(); }
 			break;
 		case 2:
-			result = utils.convertToShadowsocksWindows();
+			result = coreExecute.convertToShadowsocksWindows();
 			break;
 		case 3:
-			result = utils.convertToSwitchyOmega();
+			result = coreExecute.convertToSwitchyOmega();
 			break;
 		default:
-			utils.reportError("Need to specify running mode (Shadowrocket?Bind 9?Shadowsocks-windows?Raw file?)"); 
+			util::reportError("Need to specify output mode (Shadowrocket? Bind 9? Shadowsocks-windows? )"); 
 			return 1;
 			break;
 		}

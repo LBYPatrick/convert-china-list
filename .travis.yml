@@ -7,4 +7,4 @@ before_script:
 - sudo apt-get install mingw-w64
 - mkdir travis
 - cd travis
-script: i686-w64-mingw32-g++ -std=c++11 -w ../src/cpp/* -o convert-china-list.exe
+script: i686-w64-mingw32-g++ -std=c++11 -w ../src/cpp/* -o convert-china-list.exe 

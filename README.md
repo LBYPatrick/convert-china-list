@@ -3,7 +3,7 @@
 
 
 # Description
-Coverted China List from [felixonmars/dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) for Bind/Shadowrocket/Shadowsocks-Windows Users
+Coverted China List from [felixonmars/dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) and [gfwlist/gfwlist](https://github.com/gfwlist/gfwlist) for Bind/Shadowrocket/Shadowsocks-Windows Users
 
 ## Usage (For generators)
 
@@ -21,10 +21,8 @@ Try these just like using a linux software.
 
 ```bash
            --help                             : show help information
-     -s or --shadowrocket                     : convert specified file to a shadowrocket-compatible file.
-     -b or --bind                             : convert specified file to a bind9-compatible file.
-	-sw or --shadowsocks-windows			  : convert specified file to a PAC file (shadowsocks-windows Compatible).
-    -so or --switchyomega                     : convert specified file to a PAC file for SwitchyOmega.
+	 -s or --source-type                      : specify type of source file (dnsmasq (0)? GFWList (1)?)
+	 -c or --convert-to                       : specify type of output file (shadowrocket (0)? bind (1)? shadowsocks-windows (2)? SwitchyOmega (3)?)
 	 -i or --input-file                       : specify input file.
      -o or --output-file                      : specify output file.
      -d or --dns                              : specify preferred DNS (only required in bind mode).
@@ -39,3 +37,10 @@ Just include the file you downloaded(located under ``Pre-made Configs``)/convert
 - Shadowsocks-Windows : Its root folder, replace **pac.txt**.
 - SwitchyOmega        : Well, just import PAC.
 
+## About GFWList Mode
+
+Thanks to the base64 decode/encode module provided by [tylerliu](https://github.com/tylerliu), it is the most crucial module to this project. 
+<br>
+And I think this mode is similar to [gfwlist2pac](https://github.com/breakwa11/GFWList2PAC), but in C++ and supports much more output formats.
+
+<h1>×îáá¤Ë¡¢–|—lÏ£×î¸ß!</h1>
