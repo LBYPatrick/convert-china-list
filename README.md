@@ -22,11 +22,11 @@ Try these just like using a linux software.
 
 ```bash
            --help                             : show help information
-	 -s or --source-type                      : specify type of source file (dnsmasq (0)? GFWList (1)?)
-	 -c or --convert-to                       : specify type of output file (shadowrocket (0)? bind (1)? shadowsocks-windows (2)? SwitchyOmega (3)?)
-	 -i or --input-file                       : specify input file.
+     -s or --source-type                      : specify type of source file (dnsmasq (0)? GFWList (1)?)
+     -c or --convert-to                       : specify type of output file (shadowrocket (0)? bind (1)? shadowsocks-windows (2)? SwitchyOmega (3)?)
+     -i or --input-file                       : specify input file.
      -o or --output-file                      : specify output file.
-     -d or --dns                              : specify preferred DNS (only required in bind mode).
+     -d or --dns                              : specify preferred DNS (only works in bind mode).
 	 
 ```
 

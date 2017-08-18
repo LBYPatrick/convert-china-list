@@ -4,19 +4,13 @@
 
 
 extern string failureReason;
-string originLine;
 string lastTempFile;
+string originLine;
 
-
-inline string getRawDomain() { //Don't get confused, this is just designed for dnsmasq's config file, not for GFWList
-	
-	string returnBuf;
-	for (int counter = 8; counter < (originLine.length() - 16); counter++) {
-		returnBuf += originLine[counter];
-	}
-	return returnBuf;
-
-}
+ifstream Reader;
+ifstream DNSListReader;
+ofstream Writer;
+ofstream DNSListWriter;
 
 bool core::convertToShadowsocksWindows() {
 	
@@ -157,16 +151,31 @@ bool core::convertToShadowrocket() {
 
 bool core::convertToBind() {
 
+	string * DNScache = new string;
+
+	if (!dnsMode) DNSListReader.open("DNSList.temp");
+
 	if (checkAccess("rawList.temp", outputFile)) { return 1; } // Check Read/Write Access
 
 	while (getline(Reader, originLine)) {
+		
+		if(!dnsMode) getline(DNSListReader, *DNScache);
+
 		Writer << "zone " << "\"" << originLine << "\"" << " {" << endl;
 		Writer << "	type forward;" << endl;
-		Writer << "	forwarders {" << preferredDNS << ";};" << endl;
+		Writer << "	forwarders {";
+		
+		if (dnsMode) Writer << preferredDNS;
+		else Writer << *DNScache;
+
+		Writer << ";};" << endl;
 		Writer << "};\n\n";
 	}
 
 	closeStream();
+	
+	if (!dnsMode) DNSListReader.close();
+
 	cleanup();
 	return 0;
 }
@@ -174,6 +183,8 @@ bool core::convertToBind() {
 bool core::convertToRawList() {
 
 	bool GFWListMode = inputMode == 1 ? 1 : 0;
+
+	dnsMode = (!GFWListMode && preferredDNS == "") ? 0 : 1;
 
 	if (inputMode == 1) {
 		decodeGFWList();
@@ -184,6 +195,10 @@ bool core::convertToRawList() {
 	string fileToRead = GFWListMode ? "gfwlist.temp" : inputFile;
 
 	if (checkAccess(fileToRead, "rawList.temp")) return 1;
+	
+	if (!GFWListMode && preferredDNS == "") {
+		DNSListWriter.open("DNSList.temp");
+	}
 	
 	//Convert (GFWList ==> Raw List) START
 	if (GFWListMode) {
@@ -220,11 +235,18 @@ bool core::convertToRawList() {
 	
 	else { //dnsmasq-china-list mode
 		while (getline(Reader, originLine)) {
-			Writer << getRawDomain() << "\n";
+			Writer << dnsmasqList::getRawDomain() << "\n";
+			if (!dnsMode) {
+				DNSListWriter << dnsmasqList::getRawDNS() << "\n";
+			}
+		}
+		if (!dnsMode) {
+			DNSListWriter.close();
 		}
 	}
 
 	closeStream();
+	return 0;
 }; 
 
 bool core::decodeGFWList() { //Decode GFWList to ASCII, output to "rawlist.temp"
@@ -260,6 +282,29 @@ void core::cleanup() {
 	if (inputMode == 1) {
 		util::sysExecute("del gfwlist.temp");
 	}
+	if (!dnsMode) {
+		util::sysExecute("del DNSList.temp");
+	}
+
 	util::sysExecute("del rawList.temp");
 
+}
+
+string dnsmasqList::getRawDomain() {
+
+	string returnBuf;
+	for (int counter = 8; counter < originLine.find_last_of("/"); counter++) {
+		returnBuf += originLine[counter];
+	}
+	return returnBuf;
+
+}
+
+string dnsmasqList::getRawDNS() {
+	
+	string returnBuf;
+	for (int counter = originLine.find_last_of("/")+1; counter < originLine.size(); counter++) {
+		returnBuf += originLine[counter];
+	}
+	return returnBuf;
 }

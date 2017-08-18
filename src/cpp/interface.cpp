@@ -11,19 +11,13 @@ string preferredDNS;
 
 int main(int argc, char*const argv[]) {
 
-#pragma region Init Variables (buffer for Parameters, Mode Selection (Int) ,bool for selecting modes)
-
 	string buf4Parameters;
 	int inputMode;
 	int outputMode;
 	bool result;
 
-#pragma endregion
-
-	//Console "Interface" mode
+	//Console "Interface" mode START
 	if (argc == 1) {
-
-#pragma region  Select Running Mode
 
 		system("cls");
 		printf("\n	1. dnsmasq \n	2. GFWList\n");
@@ -38,7 +32,10 @@ int main(int argc, char*const argv[]) {
 			return 1;
 		}
 
-
+		//====================================================
+		//Collect Information
+		//====================================================
+		
 		system("cls");
 		printf("\n	1. Shadowrocket \n	2. Bind\n	3. Shadowsocks-windows PAC\n	4. SwitchyOmega PAC\n");
 		printf("\nPlease enter running mode(function number):");
@@ -53,34 +50,36 @@ int main(int argc, char*const argv[]) {
 			system("pause");
 			return 1; 
 		}		
-
-#pragma endregion
-
-#pragma region Collect Information
+		
+		//====================================================
+		//Specify Input/Output file
+		//====================================================
 		system("cls");
 		printf("Please Enter origin file name:");
 		cin >> coreExecute.inputFile;
 		printf("\nPlease Enter output file name:");
 		cin >> coreExecute.outputFile;
 		
-#pragma endregion
-
-#pragma region Main Step
 
 		cout << "------------------\n";
 		cout << "Converting...";
 
+		//====================================================
+		//Convert to Raw List
+		//====================================================
 		coreExecute.inputMode = inputMode;
 		coreExecute.convertToRawList();
 
+
+		//====================================================
+		//Select Mode & Run
+		//====================================================
 		switch (outputMode) {
 		case 0: 
 			
 			result = coreExecute.convertToShadowrocket();
 			break;
 		case 1:
-			printf("\nPlease Enter Your preferred DNS:");
-			cin >> coreExecute.preferredDNS;
 			result = coreExecute.convertToBind();
 			break;
 		case 2:
@@ -94,10 +93,7 @@ int main(int argc, char*const argv[]) {
 			return 1;
 			break;
 		}
-#pragma endregion
 
-#pragma region Post Run
-		
 		if (result) {
 			cout << "Failed.\n";
 			cout << "------Errors------\n";
@@ -110,8 +106,9 @@ int main(int argc, char*const argv[]) {
 		system("pause");
 		return 0;
 	}
+	//Console "Interface" END
 
-#pragma endregion
+
 
 	//Show help or show error message
 	if (argc == 2) {
@@ -119,22 +116,24 @@ int main(int argc, char*const argv[]) {
 		if (buf4Parameters == "--help") {
 			printf("convert-china-list by LBYPatrick\n");
 			printf("\nHere are parameters available:\n");
-			printf("    -s  or --shadowrocket        : convert specified file to a shadowrocket-compatible file.\n");
-			printf("    -b  or --bind                : convert specified file to a bind9-compatible file.\n");
-			printf("    -sw or --shadowsocks-windows : convert specified file to a PAC file for shadowsocks-windows.\n");
-			printf("    -so or --switchyomega        : convert specified file to a PAC file for SwitchyOmega.\n");
+			printf("    -s  or --source-type         : specify type of source file (dnsmasq (0)? GFWList (1)?). \n");
+			printf("    -c  or --convert-to          : specify type of output file (shadowrocket (0)? bind (1)? shadowsocks-windows (2)? SwitchyOmega (3)?). \n");
+			printf("    -i  or --input-file          : specify input file.\n");
 			printf("    -i  or --input-file          : specify input file.\n");
 			printf("    -o  or --output-file         : specify output file. \n");
-			printf("    -d  or --dns                 : specify preferred DNS (only required in bind mode).\n");
+			printf("    -d  or --dns                 : specify preferred DNS (only works in bind mode).\n");
 			
 		}
 		else { printf("[ERROR]Unknown parameter. Please check your spell or read the manual by using --help.\n"); return 1; }
 	}
 
 	// My Favorite -- commandline mode (Just Like Linux!)
+
+	//====================================================
+	//Collect Information
+	//====================================================
 	if (argc > 2) {
-#pragma region Collect Parameters
-		for (unsigned int i = 1; i < argc; i++) {
+		for (int i = 1; i < argc; ++i) {
 			if (argv[i]) {
 
 				buf4Parameters = argv[i];
@@ -160,10 +159,11 @@ int main(int argc, char*const argv[]) {
 				else if (buf4Parameters == "-d" || buf4Parameters == "--dns") { coreExecute.preferredDNS = argv[i + 1]; }
 			}
 		}
-#pragma endregion
 
-#pragma region Select Running Mode & Run
-		
+
+		//==================================================================
+		//Output Error Message if user did not specify input/output file 
+		//==================================================================
 		if (coreExecute.outputFile == "") { util::reportError("Need to specify output file name."); return 1; }
 		if (coreExecute.inputFile == "") { util::reportError("Need to specify input file name."); return 1; }
 
@@ -172,13 +172,16 @@ int main(int argc, char*const argv[]) {
 		coreExecute.inputMode = inputMode;
 		coreExecute.convertToRawList();
 
+
+		//====================================================
+		//Select Mode & Run
+		//====================================================
 		switch (outputMode) {
 		case 0:
 			result = coreExecute.convertToShadowrocket();
 			break;
 		case 1:
-			if (coreExecute.preferredDNS == "") { printf("Failed.\n"); util::reportError("Need to specify preferred DNS."); return 1; }
-			else { result = coreExecute.convertToBind(); }
+			result = coreExecute.convertToBind();
 			break;
 		case 2:
 			result = coreExecute.convertToShadowsocksWindows();
@@ -191,10 +194,10 @@ int main(int argc, char*const argv[]) {
 			return 1;
 			break;
 		}
-
-#pragma endregion
-
-#pragma region Post Run
+			
+		//====================================================
+		//Fail with Error Messages
+		//====================================================
 		if (result) {
 			cout << "Failed.\n";
 			cout << "------Errors------\n";
@@ -202,11 +205,14 @@ int main(int argc, char*const argv[]) {
 			cout << "\n------------------\n";
 			return 0;
 		}
+
+		//====================================================
+		//Success
+		//====================================================
 		if (!result) {
 			printf("Done!\n");
 			return 0;
 		}
-#pragma endregion
 	}
 	
 }
