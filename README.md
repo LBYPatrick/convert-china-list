@@ -29,6 +29,21 @@ Try these just like using a linux software.
      -d or --dns                              : specify preferred DNS (only works in bind mode).
 	 
 ```
+## Example
+```bash
+convert-china-list -s dnsmasq -c shadowrocket -i accelerated-domains.china.conf -o accelerated-domains.china.shadowrocket.conf 
+convert-china-list -s dnsmasq -c 1 -i accelerated-domains.china.conf -o accelerated-domains.china.bind.unblockYouku.conf  -d 158.69.209.100
+convert-china-list -s dnsmasq -c bind -i accelerated-domains.china.conf -o accelerated-domains.china.bind.conf
+convert-china-list -s dnsmasq -c shadowsocks-windows -i accelerated-domains.china.conf -o pac.txt
+convert-china-list -s dnsmasq -c switchyomega -i accelerated-domains.china.conf -o accelerated-domains.china.switchyomega.pac
+
+convert-china-list -s gfwlist -i gfwlist.txt -o gfwlist.shadowrocket.conf -c 0
+convert-china-list -s gfwlist -i gfwlist.txt -o gfwlist.bind.unblockYouku.conf -c 1 -d 158.69.209.100
+convert-china-list -s gfwlist -i gfwlist.txt -o gfwlist.bind.conf -c 1
+convert-china-list -s gfwlist -i gfwlist.txt -o gfwlist.pac.txt -c 2
+convert-china-list -s gfwlist -i gfwlist.txt -o gfwlist.switchyomega.pac -c 3
+
+```
 
 ## Usage (For configs)
 Just include the file you downloaded(located under ``Pre-made Configs``)/converted in
