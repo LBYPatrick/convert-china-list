@@ -27,6 +27,7 @@ Try these just like using a linux software.
      -i or --input-file                       : specify input file.
      -o or --output-file                      : specify output file.
      -d or --dns                              : specify preferred DNS (only works in bind mode).
+	 -p or --proxy                            : specify preferrred proxy (only works in SwitchyOmega PAC mode)
 	 
 ```
 ## Example
@@ -44,6 +45,13 @@ convert-china-list -s gfwlist -i gfwlist.txt -o gfwlist.pac.txt -c 2
 convert-china-list -s gfwlist -i gfwlist.txt -o gfwlist.switchyomega.pac -c 3
 
 ```
+
+### For "--proxy"
+
+i.e.
+
+``SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080`` -- This is for shadowsocks' default port.
+
 
 ## Usage (For configs)
 Just include the file you downloaded(located under ``Pre-made Configs``)/converted in

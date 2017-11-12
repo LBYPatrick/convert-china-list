@@ -1,33 +1,82 @@
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
+#include <string>
+
 #include "util.h"
-#include "main.h"
-#include "core.h"
+#include "ContentProcessor.h"
 
-extern string failureReason;
-core coreExecute;
+using std::string;
+using std::cin;
+using std::cout;
+using std::ofstream;
+using std::ifstream;
+using std::endl;
 
-string inputFile;
-string outputFile;
-string preferredDNS;
+
+int checkAccess(string i, string o) {
+	
+	ifstream tempReader;
+	ofstream tempWriter;
+	bool	 readAccess = false;
+	bool	 writeAccess = false;
+
+
+	tempReader.open(i.c_str());
+	if (tempReader.is_open()) readAccess = true;
+	tempReader.close();
+
+	tempWriter.open(o.c_str());
+	if (tempWriter.is_open()) writeAccess = true;
+	tempWriter.close();
+	
+	if (!readAccess) return 1;
+	else if (!writeAccess) return 2;
+	else return 0;
+
+}
+
+void readFileContent(string i, string & o) {
+	
+	ifstream reader;
+	string readBuffer;
+
+	reader.open(i.c_str());
+
+	while (getline(reader, readBuffer)) { o += readBuffer; o += "\n"; }
+	
+	reader.close();
+}
+
 
 int main(int argc, char*const argv[]) {
 
-	string buf4Parameters;
-	int inputMode;
-	int outputMode;
-	bool result;
+	ContentProcessor	executeObj;
+	string				inputFileName = "";
+	string				outputFileName = "";
+	string				preferredDNS = "";
+	string				preferredProxy = "";
+	string				buf4Parameters = "";
+	string				rawFileContent = "";
+	int					inputMode = 0;
+	int					outputMode = 0;
+	int					fileAccessStat = 0;
+	bool				result = false;
+	ofstream			writer;
+	bool				isCommandLineMode = false;
 
 	//Console "Interface" mode START
 	if (argc == 1) {
-
+		isCommandLineMode = false;
 		system("cls");
 		printf("\n	1. dnsmasq \n	2. GFWList\n");
 		printf("\nPlease enter type of the source file:");
 		cin >> buf4Parameters;
 
-		if (util::containIgnoreCase(buf4Parameters, "dnsmasq") || buf4Parameters == "1") { inputMode = 0; }
-		else if (util::containIgnoreCase(buf4Parameters, "gfwlist") || buf4Parameters == "2") { inputMode = 1; }
+		if (util::containIgnoreCase(buf4Parameters, "dnsmasq") || buf4Parameters == "1") inputMode = 0;
+		else if (util::containIgnoreCase(buf4Parameters, "gfwlist") || buf4Parameters == "2") inputMode = 1;
 		else {
-			util::reportError("Unknown Mode.");
+			util::reportError("Unknown Mode.\n\nFailed to execute.");
 			system("pause");
 			return 1;
 		}
@@ -35,85 +84,40 @@ int main(int argc, char*const argv[]) {
 		//====================================================
 		//Collect Information
 		//====================================================
-		
+
 		system("cls");
 		printf("\n	1. Shadowrocket \n	2. Bind\n	3. Shadowsocks-windows PAC\n	4. SwitchyOmega PAC\n");
 		printf("\nPlease enter running mode(function number):");
 		cin >> buf4Parameters;
 
-		if (util::containIgnoreCase(buf4Parameters, "shadowrocket")              || buf4Parameters == "1") { outputMode = 0; }
-		else if (util::containIgnoreCase(buf4Parameters, "bind")                 || buf4Parameters == "2") { outputMode = 1; }
-		else if (util::containIgnoreCase(buf4Parameters, "shadowsocks-windows")  || buf4Parameters == "3") { outputMode = 2; }
-		else if (util::containIgnoreCase(buf4Parameters, "switchyomega")         || buf4Parameters == "4") { outputMode = 3; }
-		else { 
-			util::reportError("Unknown Mode."); 
+		if (util::containIgnoreCase(buf4Parameters, "shadowrocket") || buf4Parameters == "1") { outputMode = 0; }
+		else if (util::containIgnoreCase(buf4Parameters, "bind") || buf4Parameters == "2") { outputMode = 1; }
+		else if (util::containIgnoreCase(buf4Parameters, "shadowsocks-windows") || buf4Parameters == "3") { outputMode = 2; }
+		else if (util::containIgnoreCase(buf4Parameters, "switchyomega") || buf4Parameters == "4") { outputMode = 3; }
+		else {
+			util::reportError("Unknown Mode.\n\nFailed to execute");
 			system("pause");
-			return 1; 
-		}		
-		
+			return 1;
+		}
+
 		//====================================================
 		//Specify Input/Output file
 		//====================================================
 		system("cls");
 		printf("Please Enter origin file name:");
-		cin >> coreExecute.inputFile;
+		cin >> inputFileName;
 		printf("\nPlease Enter output file name:");
-		cin >> coreExecute.outputFile;
-		
-
-		cout << "------------------\n";
-		cout << "Converting...";
-
-		//====================================================
-		//Convert to Raw List
-		//====================================================
-		coreExecute.inputMode = inputMode;
-		coreExecute.convertToRawList();
-
-
-		//====================================================
-		//Select Mode & Run
-		//====================================================
-		switch (outputMode) {
-		case 0: 
-			
-			result = coreExecute.convertToShadowrocket();
-			break;
-		case 1:
-			result = coreExecute.convertToBind();
-			break;
-		case 2:
-			result = coreExecute.convertToShadowsocksWindows();
-			break;
-		case 3:
-			result = coreExecute.convertToSwitchyOmega();
-			break;
-		default:
-			util::reportError("Unkown Mode");
-			return 1;
-			break;
-		}
-
-		if (result) {
-			cout << "Failed.\n";
-			cout << "------Errors------\n";
-			cout << failureReason;
-			cout << "\n------------------\n";
-		}
-		else {
-			cout << "Success.\n";
-		}
-		system("pause");
-		return 0;
+		cin >> outputFileName;
 	}
 	//Console "Interface" END
 
 
 
 	//Show help or show error message
-	if (argc == 2) {
+	else if (argc == 2) {
+		isCommandLineMode = true;
 		buf4Parameters = argv[1];
-		if (buf4Parameters == "--help") {
+		if (buf4Parameters == "--help" || buf4Parameters == "/?") {
 			printf("convert-china-list by LBYPatrick\n");
 			printf("\nHere are parameters available:\n");
 			printf("    -s  or --source-type         : specify type of source file (dnsmasq (0)? GFWList (1)?). \n");
@@ -122,17 +126,17 @@ int main(int argc, char*const argv[]) {
 			printf("    -i  or --input-file          : specify input file.\n");
 			printf("    -o  or --output-file         : specify output file. \n");
 			printf("    -d  or --dns                 : specify preferred DNS (only works in bind mode).\n");
-			
+			printf("    -p  or --proxy               : specify preferred proxy (only works in SwitchyOmega PAC Mode).\n");
+			return 0;
 		}
 		else { printf("[ERROR]Unknown parameter. Please check your spell or read the manual by using --help.\n"); return 1; }
 	}
 
-	// My Favorite -- commandline mode (Just Like Linux!)
-
 	//====================================================
 	//Collect Information
 	//====================================================
-	if (argc > 2) {
+	else if (argc > 2) {
+		isCommandLineMode = true;
 		for (int i = 1; i < argc; ++i) {
 			if (argv[i]) {
 
@@ -154,65 +158,38 @@ int main(int argc, char*const argv[]) {
 					else { util::reportError("Sorry, we haven't finished the support for the input type you specified."); return 1; }
 				}
 
-				else if (buf4Parameters == "-i" || buf4Parameters == "--input-file") { coreExecute.inputFile = argv[i + 1]; }
-				else if (buf4Parameters == "-o" || buf4Parameters == "--output-file") { coreExecute.outputFile = argv[i + 1]; }
-				else if (buf4Parameters == "-d" || buf4Parameters == "--dns") { coreExecute.preferredDNS = argv[i + 1]; }
+				else if (buf4Parameters == "-i" || buf4Parameters == "--input-file") { inputFileName = argv[i + 1]; }
+				else if (buf4Parameters == "-o" || buf4Parameters == "--output-file") { outputFileName = argv[i + 1]; }
+				else if (buf4Parameters == "-d" || buf4Parameters == "--dns") { preferredDNS = argv[i + 1]; }
+				else if (buf4Parameters == "-p" || buf4Parameters == "--proxy") { preferredProxy = argv[i + 1]; }
 			}
-		}
-
-
-		//==================================================================
-		//Output Error Message if user did not specify input/output file 
-		//==================================================================
-		if (coreExecute.outputFile == "") { util::reportError("Need to specify output file name."); return 1; }
-		if (coreExecute.inputFile == "") { util::reportError("Need to specify input file name."); return 1; }
-
-		printf("Converting...");
-
-		coreExecute.inputMode = inputMode;
-		coreExecute.convertToRawList();
-
-
-		//====================================================
-		//Select Mode & Run
-		//====================================================
-		switch (outputMode) {
-		case 0:
-			result = coreExecute.convertToShadowrocket();
-			break;
-		case 1:
-			result = coreExecute.convertToBind();
-			break;
-		case 2:
-			result = coreExecute.convertToShadowsocksWindows();
-			break;
-		case 3:
-			result = coreExecute.convertToSwitchyOmega();
-			break;
-		default:
-			util::reportError("Need to specify output mode (Shadowrocket? Bind 9? Shadowsocks-windows? )"); 
-			return 1;
-			break;
-		}
-			
-		//====================================================
-		//Fail with Error Messages
-		//====================================================
-		if (result) {
-			cout << "Failed.\n";
-			cout << "------Errors------\n";
-			cout << failureReason;
-			cout << "\n------------------\n";
-			return 0;
-		}
-
-		//====================================================
-		//Success
-		//====================================================
-		if (!result) {
-			printf("Done!\n");
-			return 0;
 		}
 	}
 	
+	fileAccessStat = checkAccess(inputFileName, outputFileName);
+
+	if (fileAccessStat != 0) {
+		util::reportError((fileAccessStat == 1) ? "No Access to the input file." : "No Access to the outputFile");
+		util::reportError("Failed to execute.");
+		return 1;
+	}
+
+	readFileContent(inputFileName, rawFileContent);
+	
+	executeObj.init(rawFileContent, inputMode, outputMode);
+	executeObj.customDNS = preferredDNS;
+	executeObj.customProxy = preferredProxy;
+
+	executeObj.getRawList();
+	executeObj.convert();
+
+	writer.open(outputFileName.c_str());
+	writer << executeObj.outputContent;
+	writer.close();
+
+	cout << "Success.\n";
+
+	if(!isCommandLineMode) system("pause");
+	return 0;
+
 }

@@ -91,9 +91,11 @@ Desktop.ini
 $RECYCLE.BIN/
 
 #Visual Studio Files in C++
+.vs/*
 *.VC.db
 *.VC.opendb
 *.ipch
 *.sln
 *.vcxproj*
 src/.vs/*
+visualStudio/*
