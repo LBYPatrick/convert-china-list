@@ -58,8 +58,8 @@ int main(int argc, char*const argv[]) {
 	string				preferredProxy = "";
 	string				buf4Parameters = "";
 	string				rawFileContent = "";
-	int					inputMode = 0;
-	int					outputMode = 0;
+	int					inputMode = -1;
+	int					outputMode = -1;
 	int					fileAccessStat = 0;
 	bool				result = false;
 	ofstream			writer;
@@ -166,28 +166,39 @@ int main(int argc, char*const argv[]) {
 		}
 	}
 	
+	//Check parameters
+	if (inputMode == -1) {util::reportError("Need to specify input file type.");return 1;}
+	if (outputMode == -1) outputMode = 2; //Convert to Shadowsocks-windows by default
+	if (inputFileName == "") {util::reportError("Need to specify output file type.");return 1;}
+	if (outputFileName == "") outputFileName = inputFileName + ".converted"; // Write to [FILENAME].converted by default
+
+	//Check file access
 	fileAccessStat = checkAccess(inputFileName, outputFileName);
 
 	if (fileAccessStat != 0) {
-		util::reportError((fileAccessStat == 1) ? "No Access to the input file." : "No Access to the outputFile");
+		util::reportError((fileAccessStat == 1) ? "No Access to the input file." : "No Access to the output file");
 		util::reportError("Failed to execute.");
 		return 1;
 	}
 
+	//Read file to memory
 	readFileContent(inputFileName, rawFileContent);
 	
+	//Initialize
 	executeObj.init(rawFileContent, inputMode, outputMode);
 	executeObj.customDNS = preferredDNS;
 	executeObj.customProxy = preferredProxy;
 
+	//Convert
 	executeObj.getRawList();
 	executeObj.convert();
 
+    //Write to the target file
 	writer.open(outputFileName.c_str());
 	writer << executeObj.outputContent;
 	writer.close();
 
-	cout << "Success.\n";
+	printf("Success.\n");
 
 	if(!isCommandLineMode) system("pause");
 	return 0;

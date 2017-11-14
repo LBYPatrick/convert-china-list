@@ -36,13 +36,13 @@ private:
 		string getRawDomain(string originLine);
 	};
 
-		  string				defaultProxy		= "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080";
+	const string				defaultProxy		= "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080";
 		  string				domainListCache		= "";
 		  string				dnsListCache		= "";
 		  string				readBuffer			= "";
 		  string				content				= "";
-		  ifstream				reader;
-		  ofstream				writer;
+	      ifstream				reader;
+	      ofstream				writer;
 		  dnsmasqProcessor		dnsmasq;
 		  gfwlistProcessor		gfwlist;
 };
