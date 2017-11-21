@@ -36,15 +36,15 @@ int checkAccess(string i, string o) {
 
 }
 
-void readFileContent(string i, string & o) {
+void readFileContent(string i, string & o, int inputMode) {
 	
 	ifstream reader;
 	string readBuffer;
 
 	reader.open(i.c_str());
 
-	while (getline(reader, readBuffer)) { o += readBuffer; o += "\n"; }
-	
+	if(inputMode == 1) while (getline(reader, readBuffer)) { o += readBuffer; }
+	else while (getline(reader, readBuffer)) { o += readBuffer; o += "\n";} 
 	reader.close();
 }
 
@@ -182,7 +182,7 @@ int main(int argc, char*const argv[]) {
 	}
 
 	//Read file to memory
-	readFileContent(inputFileName, rawFileContent);
+	readFileContent(inputFileName, rawFileContent,inputMode);
 	
 	//Initialize
 	executeObj.init(rawFileContent, inputMode, outputMode);

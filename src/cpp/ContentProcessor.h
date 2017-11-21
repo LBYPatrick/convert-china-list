@@ -37,6 +37,7 @@ private:
 	};
 
 	const string				defaultProxy		= "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080";
+	const string				defaultDNS			= "8.8.8.8";
 		  string				domainListCache		= "";
 		  string				dnsListCache		= "";
 		  string				readBuffer			= "";

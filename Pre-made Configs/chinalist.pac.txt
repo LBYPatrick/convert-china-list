@@ -290,7 +290,6 @@ var domains = {
 	"0513.net" : 1,
 	"0513.org" : 1,
 	"0513011.com" : 1,
-	"051352.com" : 1,
 	"0514.com" : 1,
 	"0514rj.com" : 1,
 	"051591.com" : 1,
@@ -2297,7 +2296,6 @@ var domains = {
 	"35go.net" : 1,
 	"35inter.com" : 1,
 	"35inter.net" : 1,
-	"35kds.com" : 1,
 	"35kk.cc" : 1,
 	"35nic.com" : 1,
 	"35pic.com" : 1,
@@ -10591,7 +10589,6 @@ var domains = {
 	"chuxinfood.com" : 1,
 	"chuyixuexi.com" : 1,
 	"chuyouke.com" : 1,
-	"chuyu.me" : 1,
 	"chvoice.com" : 1,
 	"chvv.com" : 1,
 	"chwlcn.net" : 1,
@@ -16933,7 +16930,6 @@ var domains = {
 	"h4.cc" : 1,
 	"h5-legend.com" : 1,
 	"h5-share.com" : 1,
-	"h5120.com" : 1,
 	"h515.net" : 1,
 	"h5151.com" : 1,
 	"h5abc.com" : 1,
@@ -16942,7 +16938,6 @@ var domains = {
 	"h5dm.com" : 1,
 	"h5gal.net" : 1,
 	"h5jun.com" : 1,
-	"h5king.com" : 1,
 	"h5le.com" : 1,
 	"h5mc.com" : 1,
 	"h5ps.com" : 1,
@@ -24509,7 +24504,6 @@ var domains = {
 	"mfbuluo.com" : 1,
 	"mfcad.com" : 1,
 	"mfcteda.com" : 1,
-	"mfhb88.com" : 1,
 	"mfpad.com" : 1,
 	"mfqqx.com" : 1,
 	"mftp.info" : 1,
@@ -28261,7 +28255,6 @@ var domains = {
 	"qxrisk.com" : 1,
 	"qxw.cc" : 1,
 	"qxwidc.com" : 1,
-	"qxwz.com" : 1,
 	"qxzc.net" : 1,
 	"qxzxp.com" : 1,
 	"qy01.com" : 1,
@@ -29969,7 +29962,6 @@ var domains = {
 	"sinasinasinasina.com" : 1,
 	"sinastorage.com" : 1,
 	"sinauda.com" : 1,
-	"sinawap.com" : 1,
 	"sinayou.com" : 1,
 	"since1989.org" : 1,
 	"sincetimes.com" : 1,
@@ -30653,7 +30645,6 @@ var domains = {
 	"stoexpress.us" : 1,
 	"stogd.com" : 1,
 	"stonebuy.com" : 1,
-	"stoneios.com" : 1,
 	"stonepoll.net" : 1,
 	"stoneread.com" : 1,
 	"stonexp.com" : 1,
@@ -32324,7 +32315,6 @@ var domains = {
 	"tuhu.com" : 1,
 	"tuhu.org" : 1,
 	"tuhusmart.com" : 1,
-	"tui-8.com" : 1,
 	"tui18.com" : 1,
 	"tui18edu.com" : 1,
 	"tui8.org" : 1,
@@ -37956,7 +37946,6 @@ var domains = {
 	"zcccc.com" : 1,
 	"zccrs.com" : 1,
 	"zcdog.com" : 1,
-	"zcdsp.com" : 1,
 	"zcgfgh.com" : 1,
 	"zcifc.com" : 1,
 	"zciphone.com" : 1,
@@ -38752,7 +38741,6 @@ var domains = {
 	"zitanshan.com" : 1,
 	"zitichina.com" : 1,
 	"zitizhuanhuan.com" : 1,
-	"zius.asia" : 1,
 	"zivoo.com" : 1,
 	"ziweishuwu.com" : 1,
 	"ziwork.com" : 1,
@@ -39272,7 +39260,7 @@ function FindProxyForURL(url, host) {
 		}
 
 	suffix = host.substring(pos + 1);
-	if (hasOwnProperty.call(domains, suffix)) return direct;
+	if (hasOwnProperty.call(domains, suffix))return direct;
 	pos = host.lastIndexOf('.', pos - 1);
 	}
 }

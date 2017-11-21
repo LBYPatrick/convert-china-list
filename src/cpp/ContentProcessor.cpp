@@ -10,11 +10,12 @@ using std::string;
 		sourceType = inputType;
 		targetType = outputType;
 		rawFileContent = (inputType == 0) ? rawContent : base64::decode(rawContent);
+		//printf(rawFileContent.c_str());
 	}
 
 	void ContentProcessor::getRawList() {
 
-		if (sourceType == 1) rawFileContent = base64::decode(rawFileContent);
+		//if (sourceType == 1) rawFileContent = base64::decode(rawFileContent);
 		readBuffer = ""; //cleanup
 
 		for (int i = 0; i < (int)rawFileContent.size(); ++i) {
@@ -94,7 +95,8 @@ using std::string;
 				case 0 : 
 					outputContent += "\tDOMAIN-KEYWORD,";
 					outputContent += readDomainBuffer;
-					outputContent += ",Direct\n";
+					if(sourceType == 1) outputContent += ",Proxy\n";
+					else outputContent += ",Direct\n";
 					break;
 				
 				case 1 :
@@ -106,7 +108,10 @@ using std::string;
 						if (isDNSCustomed) outputContent += customDNS;
 						else			   outputContent += readDNSBuffer; 
 					}
-					else				   outputContent += customDNS;
+					else{
+						if(isDNSCustomed) outputContent += customDNS;
+						else if(sourceType == 1) outputContent += defaultDNS;
+					}				   
 
 					outputContent += ";};\n};\n\n";
 					break;
@@ -128,7 +133,10 @@ using std::string;
 		//End Message
 		switch (targetType) {
 		
-		case 0 : outputContent += "\n\n\nFINAL,Proxy\n"; break;
+		case 0 : 
+			if(sourceType == 1) outputContent += "\n\n\nFINAL,Proxy\n"; 
+			else outputContent += "\n\n\nFINAL,Direct";
+			break;
 		case 1 : break;
 		case 2 : 
 		case 3 :
@@ -144,29 +152,49 @@ using std::string;
 			outputContent += "\tpos = host.lastIndexOf('.', pos - 1);\n\n";
 			outputContent += "\twhile(1) {\n";
 			outputContent += "\t\tif (pos <= 0) {\n";
-			outputContent += "\t\t\tif (hasOwnProperty.call(domains, host)) return direct;\n";
-			outputContent += "\t\t\telse return proxy;\n\t\t}\n\n";
+			
+			outputContent += "\t\t\tif (hasOwnProperty.call(domains, host)) ";
+			if(sourceType == 0) outputContent += "return direct;\n";
+			else outputContent += "return proxy;\n";
+			outputContent += "\t\t\telse ";
+			if(sourceType == 0) outputContent += "return proxy;\n";
+			else outputContent += "return direct;\n";
+			outputContent += "\t\t}\n\n";
+			
 			outputContent += "\tsuffix = host.substring(pos + 1);\n";
-			outputContent += "\tif (hasOwnProperty.call(domains, suffix)) return direct;\n";
+
+			outputContent += "\tif (hasOwnProperty.call(domains, suffix))";
+			if(sourceType == 0) outputContent += "return direct;\n";
+			else outputContent += "return proxy;\n";
+
 			outputContent += "\tpos = host.lastIndexOf('.', pos - 1);\n\t}\n}";
+			break;
 		}
 	}
 
 	string inline ContentProcessor::dnsmasqProcessor::getRawDomain(string originLine) {
 		string returnBuf = "";
-		for (int counter = 8; counter < (int)originLine.find_last_of("/"); counter++) returnBuf += originLine[counter];
+		int startPosition = 8;
+		int endPosition = originLine.find_last_of("/");
+		
+		//for( int counter = originLine.size()-1; counter > (int) originLine.find_last_of("/"); --counter) originLine.erase(counter);
+		for (int counter = startPosition; counter < endPosition; counter++) returnBuf += originLine[counter];
 		return returnBuf; 
-	}       
+		//return originLine;
+	}      
 
 	string inline ContentProcessor::dnsmasqProcessor::getRawDNS(string originLine) {
+		
 		string returnBuf = "";
-		for (int counter = originLine.find_last_of("/") + 1; counter < (int)originLine.size(); counter++) returnBuf += originLine[counter];
+		int startPosition = originLine.find_last_of("/") + 1;
+		int endPosition = originLine.size();
+
+		for (int counter = startPosition; counter < endPosition; counter++) returnBuf += originLine[counter];
 		return returnBuf;
 	}
 
 	string ContentProcessor::gfwlistProcessor::getRawDomain(string originLine) {
 
-		string returnBuf = "";
 
 		bool filterBuffer0 = originLine.find("[") != string::npos; // [Auto xxxx...
 		bool filterBuffer1 = originLine.find("!") != string::npos; // Comments
@@ -174,14 +202,24 @@ using std::string;
 		bool filterBuffer3 = originLine.find("|") != string::npos; // Proxy Lines
 		bool filterBuffer4 = originLine.find(".") != string::npos; // Link-Contained Lines
 		bool filterBuffer5 = originLine.find("*") != string::npos;
+		
+		int 	startPosition	 = originLine.find_last_of("|") + 1;
+		int 	endPosition 		 = originLine.size();
+		string 	returnBuffer;
+		
+		if(originLine.find("\n") != string::npos) 				endPosition -= 1;
+		if(originLine.find("http://") != string::npos) 			startPosition += 8;
+		else if(originLine.find("https://") != string::npos) 	startPosition += 9; 
 
 		if (filterBuffer0 || filterBuffer1 || filterBuffer2 || filterBuffer5) return ""; // Skip unrelated lines
 
 		else if (filterBuffer4) {
-			if (filterBuffer3) {
-				for (int i = (originLine.find_last_of("|") + 1); i < (int)originLine.size(); ++i) returnBuf += originLine[i];
-				returnBuf += "\n";
-				return returnBuf;
-			}
+			if (filterBuffer3) 
+				for(int i = startPosition; i < endPosition; ++i) 
+					returnBuffer += originLine[i];
 		}
+
+		//Return
+		return returnBuffer;
+
 	}
