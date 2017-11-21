@@ -99,3 +99,4 @@ $RECYCLE.BIN/
 *.vcxproj*
 src/.vs/*
 visualStudio/*
+src/.vscode/*
