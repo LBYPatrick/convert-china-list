@@ -3,20 +3,18 @@
 #include "base64.h"
 #include "ContentProcessor.h"
 
-
 using std::string;
 
-	void ContentProcessor::init(string & rawContent, int inputType, int outputType) {
+	void ContentProcessor::init(string & rawContent, InputType inputType, OutputType outputType) {
 		sourceType = inputType;
 		targetType = outputType;
-		rawFileContent = (inputType == 0) ? rawContent : base64::decode(rawContent);
-		//printf(rawFileContent.c_str());
+		rawFileContent = (inputType == DNSMASQ) ? rawContent : base64::decode(rawContent);
 	}
 
 	void ContentProcessor::getRawList() {
 
-		//if (sourceType == 1) rawFileContent = base64::decode(rawFileContent);
 		readBuffer = ""; //cleanup
+		string writeBuffer = "";
 
 		for (int i = 0; i < (int)rawFileContent.size(); ++i) {
 
@@ -27,12 +25,11 @@ using std::string;
 				if (sourceType == 0) { //dnsmasq
 					dnsListCache += dnsmasq.getRawDNS(readBuffer) + '\n';
 					domainListCache += dnsmasq.getRawDomain(readBuffer) + '\n';
-					//printf("%s\n",dnsmasq.getRawDomain(readBuffer).c_str());
-					//system("pause");
 				}
 				else if (sourceType == 1) { //GFWList
-					if (!(gfwlist.getRawDomain(readBuffer) == "")) {
-						domainListCache += gfwlist.getRawDomain(readBuffer) + "\n";
+					writeBuffer = gfwlist.getRawDomain(readBuffer);
+					if (writeBuffer != "") {
+						domainListCache += writeBuffer + "\n";
 					}
 				}
 				readBuffer = "";
@@ -48,7 +45,7 @@ using std::string;
 			  int			rotatorTwo			= 0;
 			  string		readDNSBuffer		= "";
 			  string		readDomainBuffer	= "";
-		const bool			isDnsmasqAndBind	= (sourceType == 0 && targetType == 1);
+		const bool			isDnsmasqAndBind	= (sourceType == DNSMASQ && targetType == BIND);
 			  bool			isFirstLine			= true;
 			  bool			isDNSCustomed		= customDNS != "";
 			  bool			isProxyCustomed		= customProxy != "";
@@ -57,7 +54,7 @@ using std::string;
 
 		//Header
 		switch (targetType) {
-		case 0: //Shadowrocket
+		case SHADOWROCKET:
 			outputContent += "[General]\n\n";
 			outputContent += "bypass-system = true";
 			outputContent += "\nskip - proxy = 192.168.0.0 / 16, 10.0.0.0 / 8, 172.16.0.0 / 12, localhost, *.local, e.crashlynatics.com, captive.apple.com";
@@ -66,9 +63,9 @@ using std::string;
 			outputContent += R"([Rule])";
 			outputContent += "\n";
 			break;
-		case 1:break;
-		case 2:
-		case 3:
+		case BIND:break;
+		case SSWINDOWS:
+		case SWITCHYOMEGA:
 			outputContent += "var domains = {\n";
 			break;
 		}
@@ -92,14 +89,14 @@ using std::string;
 
 			//Format
 			switch (targetType) {
-				case 0 : 
+				case SHADOWROCKET: 
 					outputContent += "\tDOMAIN-KEYWORD,";
 					outputContent += readDomainBuffer;
 					if(sourceType == 1) outputContent += ",Proxy\n";
 					else outputContent += ",Direct\n";
 					break;
 				
-				case 1 :
+				case BIND:
 					outputContent += "zone \"";
 					outputContent += readDomainBuffer;
 					outputContent += "\" {\n\t type forward;\n\t forwarders {";
@@ -116,8 +113,8 @@ using std::string;
 					outputContent += ";};\n};\n\n";
 					break;
 				
-				case 2 :
-				case 3 :
+				case SSWINDOWS :
+				case SWITCHYOMEGA :
 					if (!isFirstLine) outputContent += ",\n";
 					else			  isFirstLine = false;
 
@@ -133,13 +130,13 @@ using std::string;
 		//End Message
 		switch (targetType) {
 		
-		case 0 : 
-			if(sourceType == 1) outputContent += "\n\n\nFINAL,Proxy\n"; 
+		case SHADOWROCKET : 
+			if(sourceType == DNSMASQ) outputContent += "\n\n\nFINAL,Proxy\n"; 
 			else outputContent += "\n\n\nFINAL,Direct";
 			break;
-		case 1 : break;
-		case 2 : 
-		case 3 :
+		case BIND : break;
+		case SSWINDOWS : 
+		case SWITCHYOMEGA :
 			outputContent += "\n\n};\n\n\n";
 			outputContent += "var proxy = \"";
 			outputContent += (targetType == 2)? "__PROXY__" : (isProxyCustomed? customProxy : defaultProxy);
@@ -178,7 +175,10 @@ using std::string;
 		int endPosition = originLine.find_last_of("/");
 		
 		//for( int counter = originLine.size()-1; counter > (int) originLine.find_last_of("/"); --counter) originLine.erase(counter);
-		for (int counter = startPosition; counter < endPosition; counter++) returnBuf += originLine[counter];
+		for (int counter = startPosition; counter < endPosition; counter++) {
+			returnBuf += originLine[counter];
+		}
+
 		return returnBuf; 
 		//return originLine;
 	}      
@@ -189,34 +189,38 @@ using std::string;
 		int startPosition = originLine.find_last_of("/") + 1;
 		int endPosition = originLine.size();
 
-		for (int counter = startPosition; counter < endPosition; counter++) returnBuf += originLine[counter];
+		for (int counter = startPosition; counter < endPosition; counter++) { 
+			returnBuf += originLine[counter]; 
+		}
+
 		return returnBuf;
 	}
 
 	string ContentProcessor::gfwlistProcessor::getRawDomain(string originLine) {
 
+		int startPosition = 0;
+		int endPosition = originLine.size();
+		string returnBuffer;
 
-		bool filterBuffer0 = originLine.find("[") != string::npos; // [Auto xxxx...
-		bool filterBuffer1 = originLine.find("!") != string::npos; // Comments
-		bool filterBuffer2 = originLine.find("@") != string::npos; // Non-proxy Lines
-		bool filterBuffer3 = originLine.find("|") != string::npos; // Proxy Lines
-		bool filterBuffer4 = originLine.find(".") != string::npos; // Link-Contained Lines
-		bool filterBuffer5 = originLine.find("*") != string::npos;
-		
-		int 	startPosition	 = originLine.find_last_of("|") + 1;
-		int 	endPosition 		 = originLine.size();
-		string 	returnBuffer;
-		
-		if(originLine.find("\n") != string::npos) 				endPosition -= 1;
+		bool skipRule1 = originLine.find("[") != string::npos; // [Auto xxxx...
+		bool skipRule2 = originLine.find("!") != string::npos; // Comments
+		bool skipRule3 = originLine.find("@") != string::npos; // Non-proxy Lines
+		bool skipRule4 = originLine.find("*") != string::npos;
+		bool passRule1 = originLine.find("|") != string::npos; // Proxy Lines
+		bool passRule2 = originLine.find(".") != string::npos; // Link-Contained Lines
+
+		if(originLine[endPosition] == '\n') 				    endPosition -= 1;
 		if(originLine.find("http://") != string::npos) 			startPosition += 8;
-		else if(originLine.find("https://") != string::npos) 	startPosition += 9; 
+		else if(originLine.find("https://") != string::npos) 	startPosition += 9;
 
-		if (filterBuffer0 || filterBuffer1 || filterBuffer2 || filterBuffer5) return ""; // Skip unrelated lines
+		if (skipRule1 || skipRule2 || skipRule3 || skipRule4) return ""; // Skip unrelated lines
 
-		else if (filterBuffer4) {
-			if (filterBuffer3) 
-				for(int i = startPosition; i < endPosition; ++i) 
-					returnBuffer += originLine[i];
+		else if (passRule2) {
+			if (passRule1) { startPosition += originLine.find_last_of("|") + 1; }
+			
+			if (originLine[startPosition] == '\n') startPosition += 1;
+			
+			for (int i = startPosition; i < endPosition; ++i) { returnBuffer += originLine[i]; }
 		}
 
 		//Return

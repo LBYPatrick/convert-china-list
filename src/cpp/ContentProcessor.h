@@ -7,22 +7,26 @@ using std::ofstream;
 
 class ContentProcessor final {
 public:
+	enum InputType {
+		DNSMASQ,
+		GFWLIST
+	};
+	enum OutputType {
+		SHADOWROCKET,
+		BIND,
+		SSWINDOWS,
+		SWITCHYOMEGA
+	};
 	string		rawFileContent = "";
 	string		outputContent = "";
 	string		customDNS = "";
 	string		customProxy = "";
 
-	int sourceType = 0;
-	//sourceType 0 : dnsmasq
-	//sourceType 1 : GFWList
-	int targetType = 0;
+	InputType sourceType = InputType(0);
+	OutputType targetType = OutputType(0);
 
-	//0 : convertToShadowrocket();
-	//1 : convertToBind();
-	//2 : convertToShadowsocksWindows();
-	//3 : convertToSwitchyOmega();
 	ContentProcessor() = default;
-	void init(string & rawContent, int inputType, int outputType);
+	void init(string & rawContent, InputType inputType, OutputType outputType);
 	void getRawList();
 	void convert();
 

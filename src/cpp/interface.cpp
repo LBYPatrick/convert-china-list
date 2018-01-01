@@ -185,7 +185,7 @@ int main(int argc, char*const argv[]) {
 	readFileContent(inputFileName, rawFileContent,inputMode);
 	
 	//Initialize
-	executeObj.init(rawFileContent, inputMode, outputMode);
+	executeObj.init(rawFileContent, ContentProcessor::InputType(inputMode), ContentProcessor::OutputType(outputMode));
 	executeObj.customDNS = preferredDNS;
 	executeObj.customProxy = preferredProxy;
 
