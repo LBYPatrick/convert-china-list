@@ -1,7 +1,7 @@
 # Convert-China-List 
 [![Build Status](https://travis-ci.org/LBYPatrick/convert-china-list.svg?branch=master)](https://travis-ci.org/LBYPatrick/convert-china-list)
 
-[中文说明](https://github.com/LBYPatrick/convert-china-list/wiki/convert-china-list-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+[中文说明](https://github.com/LBYPatrick/convert-china-list/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 # Description
 Coverted China List from [felixonmars/dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) and [gfwlist/gfwlist](https://github.com/gfwlist/gfwlist) for Bind/Shadowrocket/Shadowsocks-Windows/Proxy SwitchyOmega Users
